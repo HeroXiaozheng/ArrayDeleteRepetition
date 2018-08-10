@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+</head>
+<body>
+<script type="text/javascript">
+		
+		//法1：利用数组的indexOf/lastIndexOf下标属性来查询。如果新数组对于当前元素搜索出的indexOf为-1，则表示，不存在新数组中，则添加，推荐		q	
+		function unique1(arr){
+			var newarr=[];
+			for (var i = 0; i < arr.length; i++) {
+				if(newarr.lastIndexOf(arr[i])==-1){
+					newarr.push(arr[i]);
+				}
+			}
+			return newarr;
+		}
+		//数组原型利用，推荐
+		function unique2(arr){
+			var newarr=[];
+		//法2： 利用数组原型对象上的includes方法。
+			// for (var i = 0; i < arr.length; i++) {
+			// 	if(!newarr.includes(arr[i])){
+			// 		newarr.push(arr[i]);
+			// 	}
+			// }
+		//法3：利用数组原型对象上的 filter 和 includes方法。把for循环换成filter迭代的方法，filt有返回值，所以有return
+			// arr.filter(function(item){
+			// 	return (newarr.includes(item))?"":newarr.push(item);
+			// });
+		//法4：利用数组原型对象上的 forEach 和 includes方法。把for循环换成forEach 迭代的方法，forEach没有返回值，所以没有return
+			arr.forEach(function(item){
+				(newarr.includes(item))?"":newarr.push(item);
+			});
+			return newarr;
+		}
+		//法5：利用splice,不创建新数组，直接操作原数组,不推荐！！
+		function unique5(arr){
+			var len=arr.length;//注意必须定义在函数外
+			for (var i = 0; i < len; i++) {
+				for (var j = i+1; j < len; j++) {
+					if(arr[i]==arr[j]){
+						arr.splice(j,1);
+						len--;//注意删除一个元素后，length要减一
+						j--;//注意j也要减一
+					}
+				}
+			}
+			return arr;
+		}
+		//法6：利用ES6的set方法
+		function unique6(arr){
+			return Array.from(new Set(arr));
+		}
+		console.log(unique1([1,1,2,3,5,3,1,5,6,7,4]));
+		console.log(unique2([1,1,2,3,5,3,1,5,6,7,4]));
+		console.log(unique5([1,1,2,3,5,3,1,5,6,7,4]));
+		console.log(unique6([1,1,2,3,5,3,1,5,6,7,4]));
+	</script>
+</body>
+</html>
